@@ -16,8 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
@@ -53,17 +51,17 @@ public class Order implements Serializable{
 	private int version;
 //	@OneToMany(mappedBy = "order")
 //	private Set<OrderDetail> orderDetails;
-	@ManyToMany
-	@JoinTable(name = "orderdetails", joinColumns = @JoinColumn(name="orderId"), 
-	inverseJoinColumns =  @JoinColumn(name = "productId"))
-	private Set<Product> products;
+//	@ManyToMany
+//	@JoinTable(name = "orderdetails", joinColumns = @JoinColumn(name="orderId"), 
+//	inverseJoinColumns =  @JoinColumn(name = "productId"))
+//	private Set<Product> products;
 	
 	public Order(LocalDate orderDate, LocalDate requiredDate, LocalDate shippedDate, String comments) {
 		setOrderDate(orderDate);
 		setRequiredDate(requiredDate);
 		setShippedDate(shippedDate);
 		this.comments = comments;
-		products = new LinkedHashSet<>();
+//		products = new LinkedHashSet<>();
 		orderDetails = new LinkedHashSet<>();
 //		orderDetails = new LinkedHashSet<>();
 	}
@@ -123,23 +121,23 @@ public class Order implements Serializable{
 		this.status = status;
 	}
 
-	public Set<Product> getProducts() {
-		return Collections.unmodifiableSet(products);
-	}
-	
-	public void add(Product product) {
-		products.add(product);
-		if (!product.getOrders().contains(this)) {
-			product.add(this);
-		}
-	}
-	
-	public void remove(Product product) {
-		products.remove(product);
-		if (product.getOrders().contains(this)) {
-			product.remove(this);
-		}
-	}
+//	public Set<Product> getProducts() {
+//		return Collections.unmodifiableSet(products);
+//	}
+//	
+//	public void add(Product product) {
+//		products.add(product);
+//		if (!product.getOrders().contains(this)) {
+//			product.add(this);
+//		}
+//	}
+//	
+//	public void remove(Product product) {
+//		products.remove(product);
+//		if (product.getOrders().contains(this)) {
+//			product.remove(this);
+//		}
+//	}
 
 	public Set<OrderDetail> getOrderDetail() {
 		return Collections.unmodifiableSet(orderDetails);
@@ -152,16 +150,4 @@ public class Order implements Serializable{
 	public void remove(OrderDetail orderDetail) {
 		orderDetails.remove(orderDetail);
 	}
-
-//	public Set<OrderDetail> getOrderDetails() {
-//		return Collections.unmodifiableSet(orderDetails);
-//	}
-//
-//	public void add(OrderDetail orderDetail) {
-//		orderDetails.add(orderDetail);
-//	}
-//	
-//	public void remove(OrderDetail orderDetail) {
-//		orderDetails.remove(orderDetail);
-//	}
 }
