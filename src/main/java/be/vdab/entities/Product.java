@@ -2,9 +2,6 @@ package be.vdab.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -37,10 +33,6 @@ public class Product implements Serializable {
 	private ProductLine productLine;
 	@Version
 	private int version;
-//	@OneToMany(mappedBy = "product")
-//	private Set<OrderDetail> orderDetails;
-	@ManyToMany(mappedBy = "products")
-	private Set<Order> orders =  new LinkedHashSet<>();
 	
 	public Product(String name, String scale, String description, long quantityInStock, long quantityInOrder,
 			BigDecimal buyPrice, ProductLine productLine) {
@@ -51,7 +43,6 @@ public class Product implements Serializable {
 		this.quantityInOrder = quantityInOrder;
 		this.buyPrice = buyPrice;
 		this.productLine = productLine;
-//		orderDetails = new LinkedHashSet<>();
 	}
 	
 	protected Product() {
@@ -108,24 +99,6 @@ public class Product implements Serializable {
 
 	public ProductLine getProductLine() {
 		return productLine;
-	}
-
-	public Set<Order> getOrders() {
-		return Collections.unmodifiableSet(orders);
-	}
-	
-	public void add(Order order) {
-		orders.add(order);
-		if (!order.getProducts().contains(this)) {
-			order.add(this);
-		}
-	}
-
-	public void remove(Order order) {
-		orders.remove(order);
-		if (order.getProducts().contains(this)) {
-			order.remove(this);
-		}
 	}
 	
 }

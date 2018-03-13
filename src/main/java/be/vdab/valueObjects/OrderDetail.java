@@ -8,18 +8,13 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import be.vdab.entities.Order;
 import be.vdab.entities.Product;
 
 @Embeddable
 public class OrderDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public static final String MET_PRODUCT = "OrderDetail.metProduct";
 	private long quantityOrdered;
 	private BigDecimal priceEach;
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "orderId")
-	private Order order;
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "productId")
 	private Product product;
@@ -61,4 +56,30 @@ public class OrderDetail implements Serializable {
 	public boolean isPriceValid(BigDecimal priceEach) {
 		return priceEach != null && priceEach.compareTo(BigDecimal.ZERO) > 0;
 	}
+
+	public Product getProduct() {
+		return product;
+	}
+	
+	@Override
+	public int hashCode() {
+		return product.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof OrderDetail)) {
+			return false;
+		}
+		OrderDetail other = (OrderDetail) obj;
+		if (product == null) {
+			if (other.product != null) {
+				return false;
+			}
+		} else if (!product.equals(other.product)) {
+			return false;
+		}
+		return true;
+	}
+	
 }

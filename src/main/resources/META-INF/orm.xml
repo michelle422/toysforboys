@@ -10,4 +10,10 @@
 			 order by o.id
 		 </query>
 	 </named-query>
+	 <named-query name="Product.findProduct">
+	 	<query>
+	 		select p from Product p
+	 		where p.id = :productId
+	 	</query>
+	 </named-query>
 </entity-mappings>

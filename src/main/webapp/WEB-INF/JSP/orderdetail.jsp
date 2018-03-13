@@ -33,11 +33,10 @@
 		<dt>Customer:</dt><dd>${order.customer.name}</dd>
 		<dd>${order.customer.adres.streetAndNumber}</dd>
 		<dd>${order.customer.adres.postalCode} ${order.customer.adres.city} ${order.customer.adres.state}</dd>
+		<dd>${order.customer.country.name}</dd>
 		<dt>Comments:</dt><dd>${order.comments}</dd>
 	</dl>
-	<dl>
-		<dd>Details:</dd>
-	</dl>
+	<p>Details:</p>
 	<table>
 		<thead>
 			<tr>
@@ -46,21 +45,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${order.products}" var="orderdetail">		
+			<c:forEach items="${order.orderDetails}" var="orderDetail">		
 				<tr>
-					<td>${orderdetail.name}</td>
-					<c:set value="${orderdetail.productQuantitiesEnPriceEach.priceEach}" var="priceEach"/>
-					<td>${priceEach}</td>
-<%-- 					<c:set value="${orderdetail.quantitiesEnPriceEach.quantityOrdered}" var="quantityOrdered"/> --%>
-<%-- 					<td>${quantityOrdered}</td> --%>
-<%-- 					<c:set value="${priceEach * quantityordered}" var="value"/> --%>
-					<td></td>
+<%-- 					<c:param name="productId" value="${orderDetail.productId}"></c:param> --%>
 <!-- 					<td></td> -->
-					<c:set value="${81.35 * 30}" var="value"/>
+					<td>${orderDetail.product.name}</td>
+					<td>${orderDetail.priceEach}</td>
+					<td>${orderDetail.quantityOrdered}</td>
+					<c:set value="${orderDetail.priceEach * orderDetail.quantityOrdered}" var="value"/>
 					<td>${value}</td>
-					<c:set var="totalValue" value="${value + totalValue}"/>
-<%-- 					<td>${quantityOrdered <= orderdetail.products.quantityInStock ? '&check' : '&cross'}</td> --%>
-					<td>${30 <= 38 ? '&#x2713;' : '&#x274c;'}</td>
+<%-- 					<c:set var="totalValue" value="${value + totalValue}"/> --%>
+					<td>${orderDetail.quantityOrdered <= orderDetail.product.quantityInStock ? '&#x2713;' : '&#x274c;'}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

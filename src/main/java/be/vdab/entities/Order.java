@@ -49,21 +49,13 @@ public class Order implements Serializable{
 	private Set<OrderDetail> orderDetails;
 	@Version
 	private int version;
-//	@OneToMany(mappedBy = "order")
-//	private Set<OrderDetail> orderDetails;
-//	@ManyToMany
-//	@JoinTable(name = "orderdetails", joinColumns = @JoinColumn(name="orderId"), 
-//	inverseJoinColumns =  @JoinColumn(name = "productId"))
-//	private Set<Product> products;
 	
 	public Order(LocalDate orderDate, LocalDate requiredDate, LocalDate shippedDate, String comments) {
 		setOrderDate(orderDate);
 		setRequiredDate(requiredDate);
 		setShippedDate(shippedDate);
 		this.comments = comments;
-//		products = new LinkedHashSet<>();
 		orderDetails = new LinkedHashSet<>();
-//		orderDetails = new LinkedHashSet<>();
 	}
 
 	protected Order() {
@@ -121,25 +113,7 @@ public class Order implements Serializable{
 		this.status = status;
 	}
 
-//	public Set<Product> getProducts() {
-//		return Collections.unmodifiableSet(products);
-//	}
-//	
-//	public void add(Product product) {
-//		products.add(product);
-//		if (!product.getOrders().contains(this)) {
-//			product.add(this);
-//		}
-//	}
-//	
-//	public void remove(Product product) {
-//		products.remove(product);
-//		if (product.getOrders().contains(this)) {
-//			product.remove(this);
-//		}
-//	}
-
-	public Set<OrderDetail> getOrderDetail() {
+	public Set<OrderDetail> getOrderDetails() {
 		return Collections.unmodifiableSet(orderDetails);
 	}
 	
