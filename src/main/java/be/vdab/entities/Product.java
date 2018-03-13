@@ -101,4 +101,8 @@ public class Product implements Serializable {
 		return productLine;
 	}
 	
+	public void updateProductStock(long quantityOrdered) {
+		quantityInStock =- quantityOrdered;
+		quantityInOrder =- quantityOrdered;
+	}
 }

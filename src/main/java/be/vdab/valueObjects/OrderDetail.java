@@ -61,6 +61,10 @@ public class OrderDetail implements Serializable {
 		return product;
 	}
 	
+	public void updateProduct() {
+		product.updateProductStock(quantityOrdered);
+	}
+	
 	@Override
 	public int hashCode() {
 		return product.hashCode();

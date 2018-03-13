@@ -20,6 +20,9 @@
 			table-layout: auto;
 			width: 85em;
 		}
+		tfoot {
+			background: blue;
+		}
 	}
 	</style>
 </head>
@@ -29,6 +32,7 @@
 		<h2>${fouten.notShipped}</h2>
 	</header>
 	<c:if test="${not empty orders}">
+		<form method="post" id="shippedform">
 		<table>
 			<thead>
 				<tr>
@@ -56,14 +60,23 @@
 							${order.status}
 						</td>
 						<td>
-							<form method="post">
-								<input type="checkbox" name="ship" value="${order.id}"> 
-							</form>
+							<input type="checkbox" name="orderIdShip" value="${order.id}"> 
 						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td><input type="submit" value="Set as shipped" id="shippedknop"></td>
+				</tr>
+			</tfoot>
 		</table>
+		</form>
 	</c:if>
+	<script>
+		document.getElementById('shippedform').onsubmit = function() {
+			document.getElementById('shippedknop').disabled = true;
+		}
+	</script>
 </body>
 </html>

@@ -11,7 +11,7 @@
 			table-layout: auto;
 			width: 85em;
 		}
-		th {
+		tfoot, th {
 			background: blue;
 		}
 		th, td {
@@ -47,18 +47,21 @@
 		<tbody>
 			<c:forEach items="${order.orderDetails}" var="orderDetail">		
 				<tr>
-<%-- 					<c:param name="productId" value="${orderDetail.productId}"></c:param> --%>
-<!-- 					<td></td> -->
 					<td>${orderDetail.product.name}</td>
-					<td>${orderDetail.priceEach}</td>
+					<td><fmt:formatNumber value="${orderDetail.priceEach}" minFractionDigits="2" maxFractionDigits="2"/></td>
 					<td>${orderDetail.quantityOrdered}</td>
 					<c:set value="${orderDetail.priceEach * orderDetail.quantityOrdered}" var="value"/>
-					<td>${value}</td>
-<%-- 					<c:set var="totalValue" value="${value + totalValue}"/> --%>
+					<td><fmt:formatNumber value="${value}" minFractionDigits="2" maxFractionDigits="2"/></td>
+					<c:set var="totalValue" value="${value + totalValue}"/>
 					<td>${orderDetail.quantityOrdered <= orderDetail.product.quantityInStock ? '&#x2713;' : '&#x274c;'}</td>
 				</tr>
 			</c:forEach>
 		</tbody>
+		<tfoot>
+			<tr>
+				<td>Value: </td><td><fmt:formatNumber value="${totalValue}" minFractionDigits="2" maxFractionDigits="2"/></td>
+			</tr>
+		</tfoot>
 	</table>
 </body>
 </html>

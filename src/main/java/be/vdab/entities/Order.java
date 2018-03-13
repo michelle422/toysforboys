@@ -124,4 +124,9 @@ public class Order implements Serializable{
 	public void remove(OrderDetail orderDetail) {
 		orderDetails.remove(orderDetail);
 	}
+	
+	public void updateOrder() {
+		status = status.valueOf("SHIPPED");
+		shippedDate = LocalDate.now();
+	}
 }
