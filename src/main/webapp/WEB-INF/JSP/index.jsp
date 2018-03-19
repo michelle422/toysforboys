@@ -28,7 +28,7 @@
 </head>
 <body>
 	<header>
-		<h1>Unshipped orders</h1>
+		<h1>Unshipped orders</h1><span>${fouten.order}</span>
 		<h2>${fouten.notShipped}</h2>
 	</header>
 	<c:if test="${not empty orders}">
@@ -49,9 +49,9 @@
 							</c:url>
 							<a href="${orderdetailURL}">${order.id}</a>
 						</td>
-						<fmt:parseDate value="${order.orderDate}" pattern="yyyy-mm-dd" var="orderDate" type="date"/>
+						<fmt:parseDate value="${order.orderDate}" pattern="yyyy-MM-dd" var="orderDate" type="date"/>
 						<td><fmt:formatDate value="${orderDate}" type='date' dateStyle='short'/></td>
-						<fmt:parseDate value="${order.requiredDate}" pattern="yyyy-mm-dd" var="requiredDate" type="date"/>
+						<fmt:parseDate value="${order.requiredDate}" pattern="yyyy-MM-dd" var="requiredDate" type="date"/>
 						<td><fmt:formatDate value="${requiredDate}" type='date' dateStyle='short'/></td>
 						<td>${order.customer.name}</td>
 						<td>${order.comments}</td>
@@ -65,12 +65,20 @@
 					</tr>
 				</c:forEach>
 			</tbody>
-			<tfoot>
-				<tr>
-					<td><input type="submit" value="Set as shipped" id="shippedknop"></td>
-				</tr>
-			</tfoot>
 		</table>
+		<label><input type="submit" value="Set as shipped" id="shippedknop"></label>
+		<c:if test="${vanafRij != 0}">
+			<c:url value="" var="vorigePaginaURL">
+				<c:param name="vanafRij" value="${vanafRij - aantalRijen}"/>
+			</c:url>
+			<a href="<c:out value='${vorigePaginaURL}'/>" title="vorige pagina" class="pagineren">&larr;</a>
+		</c:if>
+		<c:if test="${empty laatstePagina}">
+			<c:url value="" var="volgendePaginaURL">
+				<c:param name="vanafRij" value="${vanafRij + aantalRijen}"/>
+			</c:url>
+			<a href="<c:out value='${volgendePaginaURL}'/>" title="volgende pagina" class="pagineren">&rarr;</a>
+		</c:if>
 		</form>
 	</c:if>
 	<script>

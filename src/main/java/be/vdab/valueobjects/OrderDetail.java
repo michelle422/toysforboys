@@ -1,4 +1,4 @@
-package be.vdab.valueObjects;
+package be.vdab.valueobjects;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -41,13 +41,6 @@ public class OrderDetail implements Serializable {
 	public BigDecimal getPriceEach() {
 		return priceEach;
 	}
-
-	public void setPriceEach(BigDecimal priceEach) {
-		if (!isPriceValid(priceEach)) {
-			throw new IllegalArgumentException();
-		}
-		this.priceEach = priceEach;
-	}
 	
 	public boolean isQuantityValid(long quantityOrdered) {
 		return quantityOrdered > 0;
@@ -61,8 +54,12 @@ public class OrderDetail implements Serializable {
 		return product;
 	}
 	
-	public void updateProduct() {
-		product.updateProductStock(quantityOrdered);
+	public void updateProduct(String id, StringBuilder notShipped) {
+		product.updateProductStock(quantityOrdered, id, notShipped);
+	}
+	
+	public BigDecimal getValue() {
+		return priceEach.multiply(BigDecimal.valueOf(quantityOrdered));
 	}
 	
 	@Override

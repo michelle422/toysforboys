@@ -22,7 +22,7 @@ public class Country implements Serializable {
 	private long id;
 	private String name;
 	@Version
-	private int version;
+	private long version;
 	@OneToMany(mappedBy = "country")
 	private Set<Customer> customers;
 	
@@ -41,10 +41,6 @@ public class Country implements Serializable {
 
 	public String getName() {
 		return name;
-	}
-
-	public int getVersion() {
-		return version;
 	}
 
 	public Set<Customer> getCustomers() {

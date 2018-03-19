@@ -1,4 +1,4 @@
-package be.vdab.valueObjects;
+package be.vdab.valueobjects;
 
 import java.io.Serializable;
 

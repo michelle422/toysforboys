@@ -27,6 +27,8 @@ public class OrderDetailServlet extends HttpServlet {
 		if (id != null && !id.isEmpty()) {
 			orderService.read(Long.parseLong(id))
 				.ifPresent(order -> request.setAttribute("order", order));
+//			orderService.read(Long.parseLong(id))
+//				.ifPresent(order -> request.setAttribute("totalValue", order.totalValueBerekening()));
 		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}

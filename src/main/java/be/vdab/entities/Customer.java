@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-import be.vdab.valueObjects.Adres;
+import be.vdab.valueobjects.Adres;
 
 @Entity
 @Table(name = "customers")
@@ -33,7 +33,7 @@ public class Customer implements Serializable {
 	@JoinColumn(name = "countryId")
 	private Country country;
 	@Version
-	private int version;
+	private long version;
 	@OneToMany(mappedBy = "customer")
 	private Set<Order> orders;
 	
@@ -61,10 +61,6 @@ public class Customer implements Serializable {
 
 	public Country getCountry() {
 		return country;
-	}
-
-	public int getVersion() {
-		return version;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package be.vdab.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -23,7 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import be.vdab.enums.Status;
-import be.vdab.valueObjects.OrderDetail;
+import be.vdab.valueobjects.OrderDetail;
 
 @Entity
 @Table(name = "orders")
@@ -48,7 +49,7 @@ public class Order implements Serializable{
 	@CollectionTable(name = "orderdetails", joinColumns = @JoinColumn(name = "orderId"))
 	private Set<OrderDetail> orderDetails;
 	@Version
-	private int version;
+	private long version;
 	
 	public Order(LocalDate orderDate, LocalDate requiredDate, LocalDate shippedDate, String comments) {
 		setOrderDate(orderDate);
@@ -125,8 +126,22 @@ public class Order implements Serializable{
 		orderDetails.remove(orderDetail);
 	}
 	
-	public void updateOrder() {
-		status = status.valueOf("SHIPPED");
+	public BigDecimal getValue() {
+		BigDecimal totalValue = BigDecimal.ZERO;
+		for (OrderDetail elkeOrderDetail : orderDetails) {
+			totalValue=totalValue.add(elkeOrderDetail.getValue());
+		}
+//		Set<OrderDetail> berekendOrderDetails = this.getOrderDetails();
+//		return berekendOrderDetails.stream().reduce(BigDecimal.ZERO, 
+//				(vorigeSom, berekendOrderDetails.valueBerekening()) -> vorigeSom.add(berekendOrderDetails.valueBerekening()));
+//		this.getOrderDetails().iterator().forEachRemaining(orderdetail -> orderdetail.valueBerekening());
+		return totalValue;
+	}
+	
+	public void updateOrder(String id, StringBuilder notShipped) {
+		status = Status.valueOf("SHIPPED");
 		shippedDate = LocalDate.now();
+		this.getOrderDetails().forEach(orderdetail -> orderdetail.updateProduct(id, notShipped));
+//		this.getOrderDetails().forEach(orderdetail -> orderdetail.valueBerekening());
 	}
 }

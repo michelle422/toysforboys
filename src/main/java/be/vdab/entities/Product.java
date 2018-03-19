@@ -4,12 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -28,21 +25,17 @@ public class Product implements Serializable {
 	private long quantityInStock;
 	private long quantityInOrder;
 	private BigDecimal buyPrice;
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "productlineId")
-	private ProductLine productLine;
 	@Version
-	private int version;
+	private long version;
 	
 	public Product(String name, String scale, String description, long quantityInStock, long quantityInOrder,
-			BigDecimal buyPrice, ProductLine productLine) {
+			BigDecimal buyPrice) {
 		this.name = name;
 		this.scale = scale;
 		this.description = description;
 		this.quantityInStock = quantityInStock;
 		this.quantityInOrder = quantityInOrder;
 		this.buyPrice = buyPrice;
-		this.productLine = productLine;
 	}
 	
 	protected Product() {
@@ -96,13 +89,12 @@ public class Product implements Serializable {
 	public BigDecimal getBuyPrice() {
 		return buyPrice;
 	}
-
-	public ProductLine getProductLine() {
-		return productLine;
-	}
 	
-	public void updateProductStock(long quantityOrdered) {
-		quantityInStock =- quantityOrdered;
-		quantityInOrder =- quantityOrdered;
+	public void updateProductStock(long quantityOrdered, String id, StringBuilder notShipped) {
+		quantityInStock = quantityInStock - quantityOrdered;
+		quantityInOrder = quantityInOrder - quantityOrdered;
+		if (quantityInStock < 0 || quantityInOrder < 0) {
+			notShipped.append(id + ", ");
+		}
 	}
 }
